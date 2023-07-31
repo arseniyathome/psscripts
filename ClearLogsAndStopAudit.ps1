@@ -1,4 +1,5 @@
 # Set-ExecutionPolicy Unrestricted
+# Unblock-File Имя скрипта
 
 # Обеспечиваем подключение с правами администратора
 If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
