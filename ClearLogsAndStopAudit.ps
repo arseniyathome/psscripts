@@ -1,0 +1,28 @@
+# Обеспечиваем подключение с правами администратора
+If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    # Если скрипт не запущен с правами администратора, то открываем новый экземпляр PowerShell с правами администратора и запускаем скрипт снова
+    $arguments = "& '" + $myinvocation.mycommand.definition + "'"
+    Start-Process powershell -Verb runAs -ArgumentList $arguments
+    Break
+}
+
+# Получить список всех журналов событий
+$EventLogs = Get-EventLog -List
+
+# Установить их максимальный размер в 0 (что означает отключение)
+foreach ($Log in $EventLogs) {
+    $Log.LogName
+    #Set-EventLog -LogName $Log.LogName -MaximumSize 0KB
+	Write-Host $Log.LogName
+}
+
+
+# Очистка журнала безопасности
+#wevtutil cl Security
+
+#Write-Host "Security log cleared."
+
+# Отключение всех локальных политик аудита
+#AuditPol /Set /Category:* /success:disable /failure:disable
+
+#Write-Host "All local audit policies disabled."
